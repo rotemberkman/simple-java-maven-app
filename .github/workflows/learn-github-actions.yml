@@ -29,3 +29,15 @@ jobs:
         run: |
           echo "${{ secrets.DOCKERHUBTOKEN }}" | docker login -u "rotemberk" --password-stdin
           docker push rotemberk/maven-app:1.0.${PATCH}
+
+      - name: Deploy Image
+        run: |
+          echo "${{ secrets.PRIVATE_KEY_TO_EC2 }}" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@44.205.248.137 '
+            echo "${{ secrets.DOCKERHUBTOKEN }}" | docker login -u "rotemberk" --password-stdin
+            docker stop app
+            docker rmi rotemberk/maven-app
+            docker pull rotemberk/maven-app:1.0.${PATCH}
+            docker run -d --name app rotemberk/maven-app:1.0.${PATCH}
+
+          '
