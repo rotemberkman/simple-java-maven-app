@@ -35,10 +35,11 @@ jobs:
           echo "${{ secrets.PRIVATE_KEY_TO_EC2 }}" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@44.205.248.137 '
             PATCH=${{ github.run_number }}
+            LAST=$PATCH-1
             echo "${{ secrets.DOCKERHUBTOKEN }}" | docker login -u "rotemberk" --password-stdin
             docker stop app || true
             docker rm app || true
-            docker rmi rotemberk/maven-app:$(PATCH-1) || true
+            docker rmi rotemberk/maven-app:1.0.$LAST || true
             docker pull rotemberk/maven-app:1.0.$PATCH
             docker run -d --name app rotemberk/maven-app:1.0.$PATCH
 
