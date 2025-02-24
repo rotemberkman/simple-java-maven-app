@@ -12,6 +12,7 @@ RUN mvn package
 
 
 
+
 FROM eclipse-temurin:17-jre-alpine AS runtime
 
 ARG PATCHNUM
