@@ -27,5 +27,5 @@ jobs:
 
       - name: Push to DockerHub
         run: |
-          echo "${{ secrets.DOCKERHUBTOKEN }} " | docker login -u rotemberk --pasword-stdin
+          echo "${{ secrets.DOCKERHUBTOKEN }} " | docker login -u rotemberk
           docker push rotemberk/maven-app:1.0.${PATCH}
