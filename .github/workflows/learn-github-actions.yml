@@ -38,7 +38,7 @@ jobs:
             echo "${{ secrets.DOCKERHUBTOKEN }}" | docker login -u "rotemberk" --password-stdin
             docker stop app || true
             docker rm app || true
-            # docker rmi rotemberk/maven-app || true
+            docker rmi rotemberk/maven-app:$(PATCH-1) || true
             docker pull rotemberk/maven-app:1.0.$PATCH
             docker run -d --name app rotemberk/maven-app:1.0.$PATCH
 
